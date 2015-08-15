@@ -1,13 +1,22 @@
 
 class Node(object):
-	def __init__(self, name, x, y):
-		self.__name = str(name)
+	def __init__(self, gid, node_type, x, y, z=0, i=0, fanouts=[], fanins=[]):
+		self.__gid = int(gid)
+		self.__type = str(node_type)
 		self.__x = int(x)
 		self.__y = int(y)
+		self.__z = int(z)
+		self.__i = int(i)
+		self.__fanouts = fanouts
+		self.__fanins = fanins
 
 	@property
-	def name(self):
-		return self.__name
+	def gid(self):
+		return self.__gid
+
+	@property
+	def type(self):
+		return self.__type
 
 	@property
 	def x(self):
@@ -25,11 +34,48 @@ class Node(object):
 	def y(self, y):
 		self.__y = int(y)
 
+	@property
+	def z(self):
+		return self.__z
+
+	@property
+	def i(self):
+		return self.__i
+
+	@property
+	def fanins(self):
+		return [i for i in self.__fanins]
+
+	@fanins.setter
+	def fanins(self, fanins):
+		self.__fanins = [i for i in fanins]
+
+	@property
+	def fanouts(self):
+		return [i for i in self.__fanouts]
+
+	@fanouts.setter
+	def fanouts(self, fanouts):
+		self.__fanouts = [i for i in fanouts]
+
+	def toJSON(self):
+		JSONstr = '{'
+		JSONstr += '"gid": %d,'%self.gid
+		JSONstr += ' "node_type": "%s",'%str(self.type)
+		JSONstr += ' "x": %d,'%self.x
+		JSONstr += ' "y": %d,'%self.y
+		JSONstr += ' "z": %d,'%self.z
+		JSONstr += ' "i": %d,'%self.i
+		JSONstr += ' "fanins": %s,'%str(self.fanins)
+		JSONstr += ' "fanouts": %s'%str(self.fanouts)
+		JSONstr += '}'
+		return JSONstr
+
 	def __repr__(self):
-		return '%s_X%d_Y%d'%(self.name(), self.x(), self.y())
+		return '%s_X%d_Y%d_N%d_I%d'%(self.type, self.x, self.y, self.z, self.i)
 
 	def __str__(self):
-		return '%s_X%d_Y%d'%(self.name, self.x, self.y)
+		return '%s_X%d_Y%d_N%d_I%d'%(self.type, self.x, self.y, self.z, self.i)
 
 
 
@@ -118,16 +164,16 @@ class LayoutEngine:
 
 
 if __name__ == '__main__':
-	nodeList = [ Node('Top-Left', 0, 0),
-	Node('Top', 0, 1),
-	Node('Top-Right', 0, 2),
-	Node('Left', 1, 0),
-	Node('Right', 1, 2),
-	Node('Bottom-Left', 2, 0),
-	Node('Bottom', 2, 1),
-	Node('Bottom-Right', 2, 2)
+	nodeList = [ Node(0, 'Top-Left', 0, 0),
+	Node(1, 'Top', 0, 1),
+	Node(2, 'Top-Right', 0, 2),
+	Node(3, 'Left', 1, 0),
+	Node(4, 'Right', 1, 2),
+	Node(5, 'Bottom-Left', 2, 0),
+	Node(6, 'Bottom', 2, 1),
+	Node(7, 'Bottom-Right', 2, 2)
 	]
 
-	le = LayoutEngine(nodeList, Node('Center', 1, 1), 3, 3)
+	le = LayoutEngine(nodeList, Node(8, 'Center', 1, 1), 3, 3)
 	le.run()
 	le.debug()
