@@ -1,52 +1,60 @@
 
-class Node:
+class Node(object):
 	def __init__(self, name, x, y):
 		self.__name = str(name)
 		self.__x = int(x)
 		self.__y = int(y)
 
+	@property
 	def name(self):
 		return self.__name
 
+	@property
 	def x(self):
 		return self.__x
 
-	def setX(self, x):
+	@x.setter
+	def x(self, x):
 		self.__x = int(x)
 
+	@property
 	def y(self):
 		return self.__y
 
-	def setY(self, y):
+	@y.setter
+	def y(self, y):
 		self.__y = int(y)
 
 	def __repr__(self):
 		return '%s_X%d_Y%d'%(self.name(), self.x(), self.y())
 
 	def __str__(self):
-		return '%s_X%d_Y%d'%(self.name(), self.x(), self.y())
+		return '%s_X%d_Y%d'%(self.name, self.x, self.y)
 
 
 
-class NodeWrapper:
+class NodeWrapper(object):
 	def __init__(self, node):
 		self.__node = node
 		self.__loc = (-1, -1)
 
+	@property
 	def node(self):
 		return self.__node
 
+	@property
 	def loc(self):
 		return (int(self.__loc[0]), int(self.__loc[1]))
 
-	def setLoc(self, loc):
+	@loc.setter
+	def loc(self, loc):
 		self.__loc = (int(loc[0]), int(loc[1]))
 
 	def __repr__(self):
-		return '<%s, (%d, %d)>'%(str(self.__node), self.loc()[0], self.loc()[1])
+		return '<%s, (%d, %d)>'%(str(self.__node), self.loc[0], self.loc[1])
 
 	def __str__(self):
-		return '<%s, (%d, %d)>'%(str(self.__node), self.loc()[0], self.loc()[1])
+		return '<%s, (%d, %d)>'%(str(self.__node), self.loc[0], self.loc[1])
 
 
 
@@ -70,10 +78,10 @@ class LayoutEngine:
 				self.__grid[i].append(None)
 
 	def getNodeWrapperVector(self, nw):
-		return (nw.node().x() - self.__centerNode.x(), nw.node().y() - self.__centerNode.y())
+		return (nw.node.x - self.__centerNode.x, nw.node.y - self.__centerNode.y)
 
 	def getLocationVector(self, x, y):
-		return (x - self.__centerNode.x(), y - self.__centerNode.y())
+		return (x - self.__centerNode.x, y - self.__centerNode.y)
 
 	def vectorDifferenceCost(self, v1, v2):
 		return (v1[0] - v2[0]) ** 2 +  (v1[1] - v2[1]) ** 2
@@ -88,7 +96,7 @@ class LayoutEngine:
 					continue
 				lv = self.getLocationVector(ix, iy)
 				cost = self.vectorDifferenceCost(nv, lv)
-				print nw.node(), 'at', str((ix, iy)), 'nv=', str(nv), 'lv=', lv, 'cost=', cost
+				#print nw.node, 'at', str((ix, iy)), 'nv=', str(nv), 'lv=', lv, 'cost=', cost
 				if minCost == None or cost < minCost:
 					minCost = cost
 					bestLoc = (ix, iy)
@@ -96,12 +104,12 @@ class LayoutEngine:
 		if bestLoc:
 			self.__grid[bestLoc[0]][bestLoc[1]] = nw
 			#import pdb; pdb.set_trace()
-			nw.setLoc(bestLoc)
+			nw.loc = bestLoc
 		return bestLoc != None
 
 	def run(self):
 		for nwrapper in self.__nodeWrapperList:
-			self.place(nwrapper):
+			self.place(nwrapper)
 		return
 
 	def debug(self):
