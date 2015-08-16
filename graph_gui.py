@@ -173,10 +173,10 @@ class DrawableArea(QtGui.QWidget):
 		if self.__curNode:
 			self.__nodeStack.append(self.__curNode.gid)
 		self.__curNode = node
-		faninList = [self.__device.getNodeByGID(fanin_gid) for fanin_gid in node.fanins]
-		fanoutList = [self.__device.getNodeByGID(fanout_gid) for fanout_gid in node.fanouts]
+		faninList = [self.__device.getNodeByGID(fanin_gid) for fanin_gid in self.__curNode.fanins]
+		fanoutList = [self.__device.getNodeByGID(fanout_gid) for fanout_gid in self.__curNode.fanouts]
 		nodeList = list(set(faninList) | set(fanoutList))
-		layoutEngine = LayoutEngine(nodeList, node, self.__ny, self.__nx)
+		layoutEngine = LayoutEngine(nodeList, self.__curNode, self.__ny, self.__nx)
 		layoutEngine.run()
 		placement = layoutEngine.placement()
 		self.unplaceAllNodes()
@@ -189,7 +189,7 @@ class DrawableArea(QtGui.QWidget):
 		self.__faninInfoPanel.clear()
 		self.__fanoutInfoPanel.clear()
 		self.__infoPanel.clear()
-		self.__infoPanel.addItem('Traversing %s'%str(node))
+		self.__infoPanel.addItem('Traversing %s'%str(self.__curNode))
 		self.__infoPanel.insertItem(1, "")
 		self.__faninInfoPanel.addItem('Fanins (%d):-'%len(faninList))
 		for node in faninList:

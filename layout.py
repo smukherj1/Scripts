@@ -124,8 +124,12 @@ class LayoutEngine:
 			for j in xrange(self.__ny):
 				self.__grid[i].append(None)
 
+	def getNodeWrapperDistance(self, nw):
+		x, y = self.getNodeWrapperVector(nw)
+		return (x ** 2) + (y ** 2)
+
 	def getNodeWrapperVector(self, nw):
-		return (nw.node.x - self.__centerNode.x, nw.node.y - self.__centerNode.y)
+		return ((nw.node.x - self.__centerNode.x) * 2, (nw.node.y - self.__centerNode.y) * 2)
 
 	def getLocationVector(self, x, y):
 		return (x - (self.__nx / 2), y - (self.__ny / 2))
@@ -155,7 +159,7 @@ class LayoutEngine:
 
 	def run(self):
 		start_time = time.time()
-		for nwrapper in self.__nodeWrapperList:
+		for nwrapper in sorted(self.__nodeWrapperList, key = lambda nw: self.getNodeWrapperDistance(nw), reverse=True):
 			self.place(nwrapper)
 		#print 'LayoutEngine took %.0f s'%(time.time() - start_time)
 		return
