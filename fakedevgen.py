@@ -1,7 +1,7 @@
 from layout import Node
 
-nx = 5
-ny = 5
+nx = 10
+ny = 10
 last_gid = -1
 
 grid = []
@@ -34,21 +34,21 @@ def connect(src, dest):
 	dest.fanins = dest_fanins
 	return
 
-def connect_neighbours(src_type, dest_type):
+def connect_neighbours(src_type, dest_type, offset=1):
 	for ix in xrange(nx):
 		for iy in xrange(ny):
 			src = get_elem_of_type(ix, iy, src_type)
-			if ix > 0:
-				dest = get_elem_of_type(ix - 1, iy, dest_type)
+			if ix > (offset - 1):
+				dest = get_elem_of_type(ix - offset, iy, dest_type)
 				connect(src, dest)
-			if ix < (nx - 1):
-				dest = get_elem_of_type(ix + 1, iy, dest_type)
+			if ix < (nx - offset):
+				dest = get_elem_of_type(ix + offset, iy, dest_type)
 				connect(src, dest)
-			if iy > 0:
-				dest = get_elem_of_type(ix, iy - 1, dest_type)
+			if iy > (offset - 1):
+				dest = get_elem_of_type(ix, iy - offset, dest_type)
 				connect(src, dest)
-			if iy < (ny - 1):
-				dest = get_elem_of_type(ix, iy + 1, dest_type)
+			if iy < (ny - offset):
+				dest = get_elem_of_type(ix, iy + offset, dest_type)
 				connect(src, dest)
 
 
@@ -70,9 +70,10 @@ def dump_grid():
 create_elems_of_type('A')
 create_elems_of_type('B', 0, 1)
 create_elems_of_type('C', 0, 2)
-connect_neighbours('A', 'A')
-connect_neighbours('B', 'B')
-connect_neighbours('C', 'C')
+connect_neighbours('A', 'A', 1)
+connect_neighbours('A', 'A', 3)
+#connect_neighbours('B', 'B')
+#connect_neighbours('C', 'C')
 connect_neighbours('A', 'B')
 connect_neighbours('B', 'C')
 connect_neighbours('C', 'A')

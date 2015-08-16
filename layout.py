@@ -137,6 +137,9 @@ class LayoutEngine:
 	def vectorDifferenceCost(self, v1, v2):
 		return (v1[0] - v2[0]) ** 2 +  (v1[1] - v2[1]) ** 2
 
+	def getCenterVector(self):
+		return self.__nx / 2, self.__ny / 2
+
 	def place(self, nw):
 		nv = self.getNodeWrapperVector(nw)
 		minCost = None
@@ -147,6 +150,8 @@ class LayoutEngine:
 					continue
 				lv = self.getLocationVector(ix, iy)
 				cost = self.vectorDifferenceCost(nv, lv)
+				if lv == self.getCenterVector():
+					cost *= 100
 				#print nw.node, 'at', str((ix, iy)), 'nv=', str(nv), 'lv=', lv, 'cost=', cost
 				if minCost == None or cost < minCost:
 					minCost = cost
