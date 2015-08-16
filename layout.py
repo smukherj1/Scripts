@@ -1,3 +1,4 @@
+import time
 
 class Node(object):
 	def __init__(self, gid, node_type, x, y, z=0, i=0, fanouts=[], fanins=[]):
@@ -127,7 +128,7 @@ class LayoutEngine:
 		return (nw.node.x - self.__centerNode.x, nw.node.y - self.__centerNode.y)
 
 	def getLocationVector(self, x, y):
-		return (x - self.__centerNode.x, y - self.__centerNode.y)
+		return (x - (self.__nx / 2), y - (self.__ny / 2))
 
 	def vectorDifferenceCost(self, v1, v2):
 		return (v1[0] - v2[0]) ** 2 +  (v1[1] - v2[1]) ** 2
@@ -149,14 +150,18 @@ class LayoutEngine:
 
 		if bestLoc:
 			self.__grid[bestLoc[0]][bestLoc[1]] = nw
-			#import pdb; pdb.set_trace()
 			nw.loc = bestLoc
 		return bestLoc != None
 
 	def run(self):
+		start_time = time.time()
 		for nwrapper in self.__nodeWrapperList:
 			self.place(nwrapper)
+		#print 'LayoutEngine took %.0f s'%(time.time() - start_time)
 		return
+
+	def placement(self):
+		return self.__nodeWrapperList
 
 	def debug(self):
 		for nwrapper in self.__nodeWrapperList:
