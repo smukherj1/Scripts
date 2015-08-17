@@ -4,6 +4,31 @@ import sys
 import json
 from layout import Node
 from layout import LayoutEngine
+import random
+
+random.seed(0)
+
+COLOR_LIST = [
+	QtGui.QColor(255, 174, 185),
+	QtGui.QColor(218, 112, 214),
+	QtGui.QColor(139, 71, 137),
+	QtGui.QColor(139, 123, 139),
+	QtGui.QColor(224, 102, 255),
+	QtGui.QColor(132, 112, 255),
+	QtGui.QColor(72, 118, 255),
+	QtGui.QColor(99, 184, 255),
+	QtGui.QColor(0, 245, 255),
+	QtGui.QColor(0, 250, 154),
+	QtGui.QColor(50, 205, 50),
+	QtGui.QColor(192, 255, 62),
+	QtGui.QColor(255, 255, 0),
+	QtGui.QColor(255, 246, 143),
+	QtGui.QColor(255, 165, 0),
+	QtGui.QColor(210, 105, 30),
+	QtGui.QColor(255, 160, 122),
+	QtGui.QColor(255, 99, 71)
+]
+random.shuffle(COLOR_LIST)
 
 class DeviceInterface:
 	def __init__(self):
@@ -87,6 +112,7 @@ class DrawableArea(QtGui.QWidget):
 		# The color to use when clearing this widget. Use the default color
 		# of the widget for this purpose
 		self.__clearColor = self.palette().color(QtGui.QPalette.Background)
+		self.__typeToColorMap = {}
 
 		self.__nodeStack = []
 		self.__faninInfoPanel.itemClicked.connect(self.listItemSelect)
@@ -125,9 +151,9 @@ class DrawableArea(QtGui.QWidget):
 
 	def adjustSize(self):
 		# Block width
-		self.__dx = 80
+		self.__dx = 40
 		# Block height
-		self.__dy = 100
+		self.__dy = 60
 		# Padding
 		self.__p = 2
 		self.__old_nx = self.__nx
@@ -149,14 +175,8 @@ class DrawableArea(QtGui.QWidget):
 	def getColor(self, node):
 		if not node:
 			return self.__clearColor
-		elif node.gid in self.__curNode.fanins and node.gid in self.__curNode.fanouts:
-			return QtCore.Qt.green
-		elif node.gid in self.__curNode.fanins:
-			return QtCore.Qt.yellow
-		elif node.gid in self.__curNode.fanouts:
-			return QtCore.Qt.cyan
 		else:
-			raise RuntimeError('%s was neither a fanin nor a fanout of %s'%(node, self.__curNode))
+			return self.__typeToColorMap[node.type]
 
 	def showPreviousNode(self):
 		if not self.__nodeStack:
@@ -168,6 +188,17 @@ class DrawableArea(QtGui.QWidget):
 		self.showNode(last_gid)
 		return
 
+	def allocColors(self, nodeList):
+		typeSet = set()
+		for node in nodeList:
+			typeSet.add(node.type)
+		i = 0
+		self.__typeToColorMap.clear()
+		for t in typeSet:
+			self.__typeToColorMap[t] = COLOR_LIST[i]
+			i = (i + 1) % len(COLOR_LIST)
+		return
+
 	def showNode(self, gid):
 		node = self.__device.getNodeByGID(gid)
 		if self.__curNode:
@@ -176,6 +207,7 @@ class DrawableArea(QtGui.QWidget):
 		faninList = [self.__device.getNodeByGID(fanin_gid) for fanin_gid in self.__curNode.fanins]
 		fanoutList = [self.__device.getNodeByGID(fanout_gid) for fanout_gid in self.__curNode.fanouts]
 		nodeList = list(set(faninList) | set(fanoutList))
+		self.allocColors(nodeList)
 		layoutEngine = LayoutEngine(nodeList, self.__curNode, self.__ny, self.__nx)
 		layoutEngine.run()
 		placement = layoutEngine.placement()

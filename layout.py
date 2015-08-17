@@ -129,7 +129,7 @@ class LayoutEngine:
 		return (x ** 2) + (y ** 2)
 
 	def getNodeWrapperVector(self, nw):
-		return ((nw.node.x - self.__centerNode.x) * 2, (nw.node.y - self.__centerNode.y) * 2)
+		return ((nw.node.x - self.__centerNode.x), (nw.node.y - self.__centerNode.y))
 
 	def getLocationVector(self, x, y):
 		return (x - (self.__nx / 2), y - (self.__ny / 2))
@@ -150,6 +150,8 @@ class LayoutEngine:
 					continue
 				lv = self.getLocationVector(ix, iy)
 				cost = self.vectorDifferenceCost(nv, lv)
+				# Avoid placing in the center to give viewers a point of
+				# reference to infer the direction from
 				if lv == self.getCenterVector():
 					cost *= 100
 				#print nw.node, 'at', str((ix, iy)), 'nv=', str(nv), 'lv=', lv, 'cost=', cost
@@ -164,7 +166,9 @@ class LayoutEngine:
 
 	def run(self):
 		start_time = time.time()
-		for nwrapper in sorted(self.__nodeWrapperList, key = lambda nw: self.getNodeWrapperDistance(nw), reverse=True):
+
+		# Place items closer to the centerNode first and then gradually move further away
+		for nwrapper in sorted(self.__nodeWrapperList, key = lambda nw: self.getNodeWrapperDistance(nw)):
 			self.place(nwrapper)
 		#print 'LayoutEngine took %.0f s'%(time.time() - start_time)
 		return
