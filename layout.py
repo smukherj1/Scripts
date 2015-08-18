@@ -138,7 +138,7 @@ class LayoutEngine:
 		return (v1[0] - v2[0]) ** 2 +  (v1[1] - v2[1]) ** 2
 
 	def getCenterVector(self):
-		return self.__nx / 2, self.__ny / 2
+		return (0, 0)
 
 	def place(self, nw):
 		nv = self.getNodeWrapperVector(nw)
@@ -153,15 +153,17 @@ class LayoutEngine:
 				# Avoid placing in the center to give viewers a point of
 				# reference to infer the direction from
 				if lv == self.getCenterVector():
-					cost *= 100
+					cost = (cost + 1) * 1000
 				#print nw.node, 'at', str((ix, iy)), 'nv=', str(nv), 'lv=', lv, 'cost=', cost
 				if minCost == None or cost < minCost:
 					minCost = cost
 					bestLoc = (ix, iy)
 
 		if bestLoc:
+			lv = self.getLocationVector(bestLoc[0], bestLoc[1])
 			self.__grid[bestLoc[0]][bestLoc[1]] = nw
 			nw.loc = bestLoc
+			#print nw.node, 'at', str(bestLoc), 'nv=', str(nv), 'lv=', lv, 'cost=', cost
 		return bestLoc != None
 
 	def run(self):

@@ -4,6 +4,7 @@ import sys
 import json
 from layout import Node
 from layout import LayoutEngine
+import math
 import random
 
 random.seed(0)
@@ -47,6 +48,31 @@ class NodeWidget(QtGui.QWidget):
 		self.setMouseTracking(True)
 		self.__highlight = False
 		self.__node = None
+		self.__isFanin = False
+		self.__isFanout = False
+		self.__rotateAngle = 0
+
+	def setFanin(self):
+		self.__isFanin = True
+
+	def setFanout(self):
+		self.__isFanout = True
+
+	def setVector(self, vect):
+		x, y = vect
+		if x == 0:
+			if y < 0:
+				self.__rotateAngle = 270
+			elif y > 0:
+				self.__rotateAngle = 90
+			else:
+				self.__rotateAngle = 0
+			return
+		self.__rotateAngle = math.degrees(math.atan(y / x))
+		if x < 0:
+			self.__rotateAngle += 180
+		elif y < 0 and x > 0:
+			self.__rotateAngle += 360
 
 	def place(self, node):
 		self.__node = node
@@ -55,6 +81,9 @@ class NodeWidget(QtGui.QWidget):
 	def unplace(self):
 		n = self.__node
 		self.__node = None
+		self.__isFanin = False
+		self.__isFanout = False
+		self.__highlight = False
 		self.update()
 		return n
 
@@ -94,6 +123,28 @@ class NodeWidget(QtGui.QWidget):
 			p.setWidth(4)
 			qp.setPen(p)
 			qp.drawRect(event.rect())
+
+		# Rotate the painter to draw the fanin/fanout arrows
+		qp.translate(self.width() * 0.5, self.height() * 0.5)
+		qp.rotate(self.__rotateAngle)
+
+		if self.__isFanin:
+			p = QtGui.QPen(QtCore.Qt.black)
+			p.setWidth(2)
+			qp.setPen(p)
+			#qp.drawLine(self.width() * 0.25, self.height() * 0.5, self.width() * 0.5, self.height() * 0.75)
+			#qp.drawLine(self.width() * 0.25, self.height() * 0.5, self.width() * 0.5, self.height() * 0.25)
+			qp.drawLine(-self.width() * 0.25, 0, 0, self.height() * 0.25)
+			qp.drawLine(-self.width() * 0.25, 0, 0, -self.height() * 0.25)
+		if self.__isFanout:
+			p = QtGui.QPen(QtCore.Qt.black)
+			p.setWidth(2)
+			qp.setPen(p)
+			#qp.drawLine(self.width() * 0.75, self.height() * 0.5, self.width() * 0.5, self.height() * 0.75)
+			#qp.drawLine(self.width() * 0.75, self.height() * 0.5, self.width() * 0.5, self.height() * 0.25)
+			qp.drawLine(self.width() * 0.25, 0, 0, self.height() * 0.25)
+			qp.drawLine(self.width() * 0.25, 0, 0, -self.height() * 0.25)
+
 		qp.end()
 
 class DrawableArea(QtGui.QWidget):
@@ -145,15 +196,16 @@ class DrawableArea(QtGui.QWidget):
 			for iy in xrange(self.__ny):
 				self.__widgetGrid[ix].append(NodeWidget(self))
 				x, y, w, h = self.gridToActual(ix, iy)
+				self.__widgetGrid[ix][iy].setVector((ix - self.__nx / 2, iy - self.__ny / 2))
 				self.__widgetGrid[ix][iy].resize(w, h)
 				self.__widgetGrid[ix][iy].move(x, y)
 				self.__widgetGrid[ix][iy].show()
 
 	def adjustSize(self):
 		# Block width
-		self.__dx = 40
+		self.__dx = 50
 		# Block height
-		self.__dy = 60
+		self.__dy = 50
 		# Padding
 		self.__p = 2
 		self.__old_nx = self.__nx
@@ -218,6 +270,11 @@ class DrawableArea(QtGui.QWidget):
 			x, y = nodeWrapper.loc
 			self.__nodeToPlacementMap[node.gid] = (x, y)
 			self.__widgetGrid[x][y].place(node)
+			if node.gid in self.__curNode.fanins:
+				self.__widgetGrid[x][y].setFanin()
+			if node.gid in self.__curNode.fanouts:
+				self.__widgetGrid[x][y].setFanout()
+
 		self.__faninInfoPanel.clear()
 		self.__fanoutInfoPanel.clear()
 		self.__infoPanel.clear()
