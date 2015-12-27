@@ -1,0 +1,87 @@
+<html>
+<title>Gusafir Web</title>
+<head>
+<style>
+body {
+    background-color: white;
+	font-family: "Segoe UI",Arial,sans-serif;
+}
+
+.top-nav {
+	background-color: #f1f1f1;
+}
+
+.header {
+    margin: 10px 0;
+	background-color: #f1f1f1;
+	padding: 0.01em 16px;
+}
+
+.node-attr {
+	font-size: 14px;
+    font-weight: 400;
+}
+
+.node {
+	font-size: 14px;
+    font-weight: 400;
+}
+
+.node-list {
+    margin: 10px 0;
+	background-color: #f1f1f1;
+	padding: 0.01em 16px;
+}
+
+a {
+    text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<h1>Welcome to Gusafir Web Interface</h1>
+	<p> Quartus II 16.0 Build 109</p>
+	<div class="top-nav">
+		<a href="/new">New Node</a>
+	</div>
+	<hr>
+	<div class="header">
+		<h2>You are at...<h2>
+		<div class="node-attr">
+			<strong>GID</strong> 500
+		</div>
+		<div class="node-attr">
+			<strong>Name</strong> INPUT_X0Y0Z0_I100
+		</div>
+		<div class="node-attr">
+			<strong>RTL (mux)</strong> u0_100/x0/x1/la_lab_r145_c31/ileim[32]:muxout
+		</div>
+	</div>
+	<hr>
+	<h2>With the following connectivity</h2>
+	<div class="node-list">
+		<h3>Fanouts:-<h3>
+		<div class="node">
+			<a href="/?get=0">GID:0 NODE_X0Y0Z0I0</a>
+		</div>
+		<div class="node">
+			<a href="/?get=1">GID:1 NODE_X0Y0Z0I1</a>
+		</div>
+		<div class="node">
+			<a href="/?get=2">GID:2 NODE_X0Y0Z0I2</a>
+		</div>
+	</div>
+	<div class="node-list">
+		<h3>Fanins:-<h3>
+		<div class="node">
+			<a href="/?get=0">GID:0 NODE_X0Y0Z0I0</a>
+		</div>
+		<div class="node">
+			<a href="/?get=1">GID:1 NODE_X0Y0Z0I1</a>
+		</div>
+		<div class="node">
+			<a href="/?get=2">GID:2 NODE_X0Y0Z0I2</a>
+		</div>
+	</div>
+</body>
+</html>
