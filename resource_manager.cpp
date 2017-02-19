@@ -124,6 +124,7 @@ private:
 	
 };
 
+
 int main()
 {
 	SharedResourceManager<int, int> int_mgr;
