@@ -1,4 +1,5 @@
 #include <iostream>
+#include <type_traits>
 
 template<typename T, typename RET_T = void, typename... ARGS>
 struct has_foo
@@ -23,13 +24,55 @@ class INST_PORT;
 class FOO
 {
 public:
-	bool foo(const PORT* p, const INST_PORT* ip) const { return true;  }
-	bool foo(const PORT* p) { return true; }
-	void foo() {}
+	bool foo(const PORT* p) 
+	{ 
+		std::cout << "FOO::foo(const PORT*) invoked\n";
+		return true; 
+	}
 };
+
+class BAR
+{
+public:
+	void foo(int* goo) const { std::cout << "BAR::foo(int*) invoked\n"; }
+};
+
+class BAZ
+{
+public:
+	void wut() const {}
+};
+
+template
+<class T, typename = void>
+struct CALLBACK_IMPL
+{
+	static void call(T& t) { std::cout << "Default CALLBACK_IMPL invoked\n"; }
+};
+
+template
+<class T>
+struct CALLBACK_IMPL<T, typename std::enable_if<has_foo<T, void, int*>::value>::type>
+{
+	static void call(T& t) { t.foo(nullptr); }
+};
+
+template
+<class T>
+class CALLBACK
+{
+public:
+	void call() const { CALLBACK_IMPL<T>::call(T()); }
+};
+
 
 int main()
 {
-	std::cout << has_foo<FOO>::value << "\n";
+	CALLBACK<FOO> cf;
+	cf.call();
+	CALLBACK<BAR> bf;
+	bf.call();
+	CALLBACK<BAZ> bzf;
+	bzf.call();
 	return 0;
 }
