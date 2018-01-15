@@ -7,6 +7,15 @@ filetype plugin indent on
 
 colorscheme evening
 
+" Disable weird backspace
+set backspace=indent,eol,start
+
+" Map Ctrl + left/right to switch tabs
+map <C-Left> <Esc>:tabprev<CR>
+map <C-Right> <Esc>:tabnext<CR>
+" Map Ctrl + N to new tab
+map <C-n> <Esc>:tabnew
+
 " Plugins
 call plug#begin()
 Plug 'roxma/nvim-completion-manager'
