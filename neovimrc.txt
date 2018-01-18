@@ -18,10 +18,16 @@ map <C-n> <Esc>:tabnew
 
 " Plugins
 call plug#begin()
+" Airline themes
+Plug 'vim-airline/vim-airline'                                                                                                                                                                          
+Plug 'vim-airline/vim-airline-themes'
+" Auto-completion plugin
 Plug 'roxma/nvim-completion-manager'
-" Auto completion
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Python auto-complete
+Plug 'davidhalter/jedi'
+" C/C++ auto-complete
+Plug 'roxma/ncm-clang'
+
 call plug#end()
 
 set tabline=%!MyTabLine()  " custom tab pages line
