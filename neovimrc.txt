@@ -5,6 +5,9 @@ set shiftwidth=4
 set softtabstop=4
 filetype plugin indent on
 
+" Show line numbers
+set number
+
 colorscheme evening
 
 " Disable weird backspace
