@@ -24,14 +24,14 @@ call plug#begin()
 " Airline themes
 Plug 'vim-airline/vim-airline'                                                                                                                                                                          
 Plug 'vim-airline/vim-airline-themes'
+" Colorschemes
+Plug 'flazz/vim-colorschemes'
 " Auto-completion plugin
-Plug 'roxma/nvim-completion-manager'
-" Python auto-complete
-Plug 'davidhalter/jedi'
-" C/C++ auto-complete
-Plug 'roxma/ncm-clang'
-
+Plug 'Valloric/YouCompleteMe'
 call plug#end()
+
+" Don't confirm extra YCM conf file
+let g:ycm_confirm_extra_conf = 0
 
 set tabline=%!MyTabLine()  " custom tab pages line
 function! MyTabLine()
