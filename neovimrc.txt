@@ -13,6 +13,8 @@ let g:airline_powerline_fonts = 1
 set number
 
 colorscheme evening
+let g:airline_theme="angr"                                                                                                                                                                                     
+let g:airline_solarized_bg='dark'
 
 " Disable weird backspace
 set backspace=indent,eol,start
