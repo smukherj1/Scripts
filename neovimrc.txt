@@ -19,11 +19,17 @@ let g:airline_solarized_bg='dark'
 " Disable weird backspace
 set backspace=indent,eol,start
 
-" Map Ctrl + left/right to switch tabs
-map <C-Left> <Esc>:tabprev<CR>
-map <C-Right> <Esc>:tabnext<CR>
-" Map Ctrl + N to new tab
-map <C-n> <Esc>:tabnew
+" Map Ctrl + left/right to switch tabs                                                                                                                                                                             
+" map <C-Left> <Esc>:tabprev<CR>                                                                                                                                                                                   
+" map <C-Right> <Esc>:tabnext<CR>                                                                                                                                                                                  
+" Map Ctrl + N to new tab                                                                                                                                                                                          
+" map <C-n> <Esc>:tabnew                                                                                                                                                                                           
+                                                                                                                                                                                                                   
+" Map Ctrl + left/right to switch buffers                                                                                                                                                                             
+map <C-Left> <Esc>:bp<CR>                                                                                                                                                                                          
+map <C-Right> <Esc>:bn<CR>                                                                                                                                                                                         
+" Map Ctrl + N to new buffer                                                                                                                                                                                         
+map <C-n> <Esc>:edit<space> 
 
 " Plugins
 call plug#begin()
