@@ -5,6 +5,10 @@ set shiftwidth=4
 set softtabstop=4
 filetype plugin indent on
 
+" Powerline fonts sudo apt install fonts-powerline                                                                                                                                                                                  
+let g:airline#extensions#tabline#enabled = 1                                                                                                                                                                   
+let g:airline_powerline_fonts = 1 
+
 " Show line numbers
 set number
 
