@@ -11,12 +11,13 @@ let g:airline_powerline_fonts = 1
 
 " Show line numbers
 set number
-
-let g:airline_theme="angr"                                                                                                                                                                                     
-let g:airline_solarized_bg='dark'
+set background=dark
+let g:airline_theme="gruvbox"                                                                                                                                                                                   "let g:airline_solarized_bg='dark'
+let g:gruvbox_termcolors=256
 
 " Disable weird backspace
 set backspace=indent,eol,start
+set term=xterm-256color
 
 " Map Ctrl + left/right to switch tabs                                                                                                                                                                             
 " map <C-Left> <Esc>:tabprev<CR>                                                                                                                                                                                   
@@ -37,6 +38,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Colorschemes
 Plug 'flazz/vim-colorschemes'
+Plug 'morhetz/gruvbox'
 " Auto-completion plugin
 Plug 'Valloric/YouCompleteMe'
 call plug#end()
