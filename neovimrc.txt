@@ -19,16 +19,16 @@ let g:gruvbox_termcolors=256
 set backspace=indent,eol,start
 set term=xterm-256color
 
-" Map Ctrl + left/right to switch tabs                                                                                                                                                                             
-" map <C-Left> <Esc>:tabprev<CR>                                                                                                                                                                                   
-" map <C-Right> <Esc>:tabnext<CR>                                                                                                                                                                                  
-" Map Ctrl + N to new tab                                                                                                                                                                                          
-" map <C-n> <Esc>:tabnew                                                                                                                                                                                           
-                                                                                                                                                                                                                   
-" Map Ctrl + left/right to switch buffers                                                                                                                                                                             
-map <C-Left> <Esc>:bp<CR>                                                                                                                                                                                          
-map <C-Right> <Esc>:bn<CR>                                                                                                                                                                                         
-" Map Ctrl + N to new buffer                                                                                                                                                                                         
+" Map Ctrl + left/right to switch tabs                                
+" map <C-Left> <Esc>:tabprev<CR>
+" map <C-Right> <Esc>:tabnext<CR>
+" Map Ctrl + N to new tab
+" map <C-n> <Esc>:tabnew<space>
+
+" Map Ctrl + left/right to switch buffers
+map <C-Left> <Esc>:bp<CR>
+map <C-Right> <Esc>:bn<CR>
+" Map Ctrl + N to new buffer
 map <C-n> <Esc>:edit<space> 
 
 " Plugins
