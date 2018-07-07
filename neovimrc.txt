@@ -5,21 +5,22 @@ set shiftwidth=4
 set softtabstop=4
 filetype plugin indent on
 
-" Powerline fonts sudo apt install fonts-powerline                                                                                                                                                                                  
-let g:airline#extensions#tabline#enabled = 1                                                                                                                                                                   
+" Powerline fonts sudo apt install fonts-powerline
+let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1 
 
 " Show line numbers
 set number
 set background=dark
-let g:airline_theme="gruvbox"                                                                                                                                                                                   "let g:airline_solarized_bg='dark'
+let g:airline_theme="gruvbox"
+"let g:airline_solarized_bg='dark'
 let g:gruvbox_termcolors=256
 
 " Disable weird backspace
 set backspace=indent,eol,start
 set term=xterm-256color
 
-" Map Ctrl + left/right to switch tabs                                
+" Map Ctrl + left/right to switch tabs
 " map <C-Left> <Esc>:tabprev<CR>
 " map <C-Right> <Esc>:tabnext<CR>
 " Map Ctrl + N to new tab
