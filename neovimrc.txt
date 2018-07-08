@@ -31,7 +31,10 @@ set term=xterm-256color
 map <C-Left> <Esc>:bp<CR>
 map <C-Right> <Esc>:bn<CR>
 " Map Ctrl + N to new buffer
-map <C-n> <Esc>:edit<space> 
+map <C-n> <Esc>:edit<space>
+" Ctrl+s to save
+noremap <C-s> <Esc>:update<CR>
+inoremap <C-s> <C-O>:update<CR>
 
 " Plugins
 call plug#begin()
