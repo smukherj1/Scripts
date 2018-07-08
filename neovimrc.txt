@@ -3,6 +3,7 @@
 set expandtab
 set shiftwidth=4
 set softtabstop=4
+set tabstop=4
 filetype plugin indent on
 
 " Powerline fonts sudo apt install fonts-powerline
@@ -46,6 +47,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'LucHermitte/lh-vim-lib'
 Plug 'LucHermitte/lh-style'
 Plug 'LucHermitte/lh-brackets'
+" Go plugin
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 " Don't insert placeholder for brace matching
