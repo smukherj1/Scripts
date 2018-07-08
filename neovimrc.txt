@@ -42,7 +42,14 @@ Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
 " Auto-completion plugin
 Plug 'Valloric/YouCompleteMe'
+" Auto brace matching
+Plug 'LucHermitte/lh-vim-lib'
+Plug 'LucHermitte/lh-style'
+Plug 'LucHermitte/lh-brackets'
 call plug#end()
+
+" Don't insert placeholder for brace matching
+let b:usemarks  = 0
 
 colorscheme Chasing_Logic
 
